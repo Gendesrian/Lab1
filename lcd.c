@@ -36,14 +36,16 @@
 
 void DelayUs(unsigned int usDelay) {
 
-	// TODO: Use Timer 2 to delay for precisely (as precise as possible) usDelay
-	// microseconds provided by the input variable.
-	//
-	// Hint: Determine the configuration for the PR1 setting that provides for a
-	// one microsecond delay, and multiply this by the input variable.
-	// Be sure to user integer values only.
+// TODO: Use Timer 2 to delay for precisely (as precise as possible) usDelay
+// microseconds provided by the input variable.
+//
+// Hint: Determine the configuration for the PR1 setting that provides for a
+// one microsecond delay, and multiply this by the input variable.
+// Be sure to user integer values only.
 /**********************************************/
 
+    int PR1delay = 15;
+    TMR2 = usDelay *  PR1delay;
 
 /*****************************************************/
 }
@@ -65,9 +67,9 @@ void DelayUs(unsigned int usDelay) {
 
 void EnableLCD(unsigned char commandType, unsigned usDelay) {
 
-	LCD_RS = commandType; DelayUs(usDelay);
-	LCD_E = 1;  DelayUs(usDelay);
-	LCD_E = 0;  DelayUs(usDelay);
+    LCD_RS = commandType; DelayUs(usDelay);
+    LCD_E = 1;  DelayUs(usDelay);
+    LCD_E = 0;  DelayUs(usDelay);
 }
 
 // ******************************************************************************************* //
@@ -85,13 +87,16 @@ void EnableLCD(unsigned char commandType, unsigned usDelay) {
 
 void WriteLCD(unsigned char word, unsigned commandType, unsigned usDelay) {
 
-	// TODO: Using bit masking and shift operations, write most significant bits to correct
-	// bits of the LCD_D signal (i.e. #define used to map internal name to LATB)
-	// and enable the LCD for the correct command.
+// TODO: Using bit masking and shift operations, write most significant bits to correct
+// bits of the LCD_D signal (i.e. #define used to map internal name to LATB)
+// and enable the LCD for the correct command.
+           LCD_D = (LCD_D & 0x0FFF) | 0x3000;
 
-	// TODO: Using bit masking and shift operations, write least significant bits to correct
-	// bits of the LCD_D signal (i.e. #define used to map internal name to LATB)
-	// and enable the LCD for the correct command.
+
+// TODO: Using bit masking and shift operations, write least significant bits to correct
+// bits of the LCD_D signal (i.e. #define used to map internal name to LATB)
+// and enable the LCD for the correct command.
+           LCD_D = (LCD_D & 0x0FFF) | 0x3000;
 }
 
 // ******************************************************************************************* //
@@ -102,26 +107,38 @@ void WriteLCD(unsigned char word, unsigned commandType, unsigned usDelay) {
 
 void LCDInitialize(void) {
 
-	// Setup D, RS, and E to be outputs (0).
+// Setup D, RS, and E to be outputs (0).
+    LCD_D = (LCD_D & 0x0FFF) | 0x0000;
+    LCD_RS = 0;
+    LCD_E = 0;
+    DelayUs(15000);
+    LCD_D = (LCD_D & 0x0FFF) | 0x3000;
+    EnableLCD(LCD_WRITE_CONTROL, 4100);
 
-	// Initilization sequence utilizes specific LCD commands before the general configuration
-	// commands can be utilized. The first few initilition commands cannot be done using the
-	// WriteLCD function. Additionally, the specific sequence and timing is very important.
 
-	// Enable 4-bit interface
+// Initilization sequence utilizes specific LCD commands before the general configuration
+// commands can be utilized. The first few initilition commands cannot be done using the
+// WriteLCD function. Additionally, the specific sequence and timing is very important.
 
-	// Function Set (specifies data width, lines, and font.
+// Enable 4-bit interface
+            //DONE
 
-	// 4-bit mode initialization is complete. We can now configure the various LCD
-	// options to control how the LCD will function.
+// Function Set (specifies data width, lines, and font.
+           //
 
-	// TODO: Display On/Off Control
-	// Turn Display (D) Off
-	// TODO: Clear Display
-	// TODO: Entry Mode Set
-	// Set Increment Display, No Shift (i.e. cursor move)
-	// TODO: Display On/Off Control
-	// Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
+// 4-bit mode initialization is complete. We can now configure the various LCD
+// options to control how the LCD will function.
+
+// TODO: Display On/Off Control
+
+// Turn Display (D) Off
+
+// TODO: Clear Display
+
+// TODO: Entry Mode Set
+// Set Increment Display, No Shift (i.e. cursor move)
+// TODO: Display On/Off Control
+// Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
 }
 
 // ******************************************************************************************* //
@@ -131,8 +148,8 @@ void LCDInitialize(void) {
 
 void LCDClear(void) {
 
-	// TODO: Write the proper control instruction to clear the screen ensuring
-	// the proper delay is utilized.
+// TODO: Write the proper control instruction to clear the screen ensuring
+// the proper delay is utilized.
 }
 
 // ******************************************************************************************* //
@@ -147,9 +164,9 @@ void LCDClear(void) {
 
 void LCDMoveCursor(unsigned char x, unsigned char y) {
 
-	// TODO: Write the propoer control instruction to move the cursor to the specified
-	// (x,y) coordinate. This operation should be performance as a single control
-	// control instruction, i.e. a single call the WriteLCD() function.
+// TODO: Write the propoer control instruction to move the cursor to the specified
+// (x,y) coordinate. This operation should be performance as a single control
+// control instruction, i.e. a single call the WriteLCD() function.
 
 }
 
@@ -163,8 +180,8 @@ void LCDMoveCursor(unsigned char x, unsigned char y) {
 
 void LCDPrintChar(char c) {
 
-	// TODO: Write the ASCII character provide as input to the LCD display ensuring
-	// the proper delay is utilized.
+// TODO: Write the ASCII character provide as input to the LCD display ensuring
+// the proper delay is utilized.
 
 }
 
